@@ -207,3 +207,37 @@ def homepage():
 
 # url: http://127.0.0.1:8000/
 ```
+
+<hr>
+
+<h2 align="left">➾ Python Type Hints</h2>
+
+Type Hints are a feature of Python that allows you to explicitly declare the data type of a variable, parameter, or return value when defining it. They are only available in Python 3.5 and later. Type Hints provide two benefits. First, they help people reading your code to know what types of data to expect. Second, they enable static type checking tools, such as Mypy, to verify the correctness of your code and detect potential errors.
+
+Here is an example of a function without Type Hints:
+
+```python
+def add(x, y):
+    return x + y
+```
+
+This function takes two arguments, `x` and `y`, and returns their sum. However, without Type Hints, we don't know what types of data `x` and `y` are, or what type of data the function returns. This can lead to some disadvantages, such as:
+
+- The code is less readable and understandable, as we have to guess or infer the types from the context or the documentation.
+- The code is more prone to bugs, as we can accidentally pass the wrong types of data to the function, or use the return value in an inappropriate way. For example, if we pass strings instead of numbers, the function will concatenate them instead of adding them. Or if we use the return value as a boolean, it will always evaluate to True, unless the sum is zero.
+- The code is less maintainable and scalable, as we have to manually check and update the types whenever we change the function or the data. This can be tedious and error-prone, especially for large and complex projects.
+
+Here is the same example of a function with Type Hints:
+
+```python
+def add(x: int, y: int) -> int:
+    return x + y
+```
+
+This function uses Type Hints to declare that `x` and `y` are integers, and that the function returns an integer. This can lead to some advantages, such as:
+
+- The code is more readable and understandable, as we can clearly see the types of data that the function expects and returns. This can also help with documentation and code completion.
+- The code is more robust and reliable, as we can use static type checking tools, such as Mypy, to analyze the code and detect any type errors or inconsistencies. For example, if we try to pass strings instead of numbers, or use the return value as a boolean, Mypy will warn us and prevent us from running the code.
+- The code is more maintainable and scalable, as we can easily check and update the types whenever we change the function or the data. This can also help with refactoring and testing, as we can ensure that the types are consistent and compatible.
+
+<h2 align="left">➾ Async & Wait</h2>
