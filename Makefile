@@ -4,10 +4,10 @@ install:
 
 format:
 	# format code
-	black package/. concepts/.
+	black 00-concepts/. 01-calculator-app/. 
 lint:
 	# flake8 or pylint
-	pylint --disable=R,C package/. concepts/.
+	pylint --disable=R,C 00-concepts/. 01-calculator-app/.
 test:
 	# test
 	# python -m pytest --cov=mylib test_logic.py
@@ -25,3 +25,7 @@ deploy:
 	# docker push 561744971673.dkr.ecr.us-east-1.amazonaws.com/fastapi-wiki:latest
 
 all: format lint
+
+run-fastapi-calculator:
+	# run fastapi calculator app
+	uvicorn 01-calculator-app.main:api --reload
