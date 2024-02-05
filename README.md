@@ -123,6 +123,8 @@ This is the data that is sent by the client to the endpoint in the HTTP request.
 
 <h2 align="left">Responding to Requests</h2>
 
+<h3 align="left">Responding to Requests in Basic Way</h3>
+
 ```python
 import fastapi
 import uvicorn
@@ -139,7 +141,32 @@ def calculate(a: int, b: int, c: typing.Optional[int] = None):
             content="ERROR: 'c' cannot be Zero.",
             status_code=fastapi.status.HTTP_400_BAD_REQUEST,
             media_type="application/json"
-        )
+    )   # update
+    if c is not None:
+        result *= c
+    return {"a": a, "b": b, "c": c, "value": result}
+
+# url: http://127.0.0.1:8000/api/calculate?a=2&b=3&c=0
+```
+
+<h3 align="left">Responding to Requests in Specialized Way</h3>
+
+```python
+import fastapi
+import uvicorn
+import typing
+
+api = fastapi.FastAPI()
+
+
+@api.get(path="/api/calculate")
+def calculate(a: int, b: int, c: typing.Optional[int] = None):
+    result = a + b
+    if c == 0:
+        return fastapi.responses.JSONResponse(
+            content={"error" : "'c' cannot be Zero."},
+            status_code=fastapi.status.HTTP_400_BAD_REQUEST
+    )   # update
     if c is not None:
         result *= c
     return {"a": a, "b": b, "c": c, "value": result}

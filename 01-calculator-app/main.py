@@ -9,11 +9,10 @@ api = fastapi.FastAPI()
 def calculate(a: int, b: int, c: typing.Optional[int] = None):
     result = a + b
     if c == 0:
-        return fastapi.Response(
-            content="ERROR: 'c' cannot be Zero.",
-            status_code=fastapi.status.HTTP_400_BAD_REQUEST,
-            media_type="application/json"
-        )
+        return fastapi.responses.JSONResponse(
+            content={"error" : "'c' cannot be Zero."},
+            status_code=fastapi.status.HTTP_400_BAD_REQUEST
+    )
     if c is not None:
         result *= c
     return {"a": a, "b": b, "c": c, "value": result}
