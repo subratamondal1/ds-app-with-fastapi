@@ -1,18 +1,22 @@
 import fastapi
 import uvicorn
-import pydantic
+import typing
 
 api = fastapi.FastAPI()
 
-class Numbers(pydantic.BaseModel):
-    a: int
-    b: int
-    c: int = 10
 
-
-@api.post(path="/api/calculate")
-def calculate(numbers:Numbers):
-    return {"value": (numbers.a + numbers.b) * numbers.c}
+@api.get(path="/api/calculate")
+def calculate(a: int, b: int, c: typing.Optional[int] = None):
+    result = a + b
+    if c == 0:
+        return fastapi.Response(
+            content="ERROR: 'c' cannot be Zero.",
+            status_code=fastapi.status.HTTP_400_BAD_REQUEST,
+            media_type="application/json"
+        )
+    if c is not None:
+        result *= c
+    return {"a": a, "b": b, "c": c, "value": result}
 
 
 if __name__ == "__main__":

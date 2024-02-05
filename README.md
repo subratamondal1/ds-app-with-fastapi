@@ -120,3 +120,29 @@ def calculate(numbers:Numbers):
 ```
 
 This is the data that is sent by the client to the endpoint in the HTTP request. It is usually in JSON format and can be used to pass complex or large data to the endpoint. For example, `@api.post(path="/api/calculate")` can accept a request body like `{"a": 2, "b": 3, "c": 10}`.
+
+<h2 align="left">Responding to Requests</h2>
+
+```python
+import fastapi
+import uvicorn
+import typing
+
+api = fastapi.FastAPI()
+
+
+@api.get(path="/api/calculate")
+def calculate(a: int, b: int, c: typing.Optional[int] = None):
+    result = a + b
+    if c == 0:
+        return fastapi.Response(
+            content="ERROR: 'c' cannot be Zero.",
+            status_code=fastapi.status.HTTP_400_BAD_REQUEST,
+            media_type="application/json"
+        )
+    if c is not None:
+        result *= c
+    return {"a": a, "b": b, "c": c, "value": result}
+
+# url: http://127.0.0.1:8000/api/calculate?a=2&b=3&c=0
+```
