@@ -121,7 +121,7 @@ def calculate(numbers:Numbers):
 
 This is the data that is sent by the client to the endpoint in the HTTP request. It is usually in JSON format and can be used to pass complex or large data to the endpoint. For example, `@api.post(path="/api/calculate")` can accept a request body like `{"a": 2, "b": 3, "c": 10}`.
 
-<h2 align="left">Responding to Requests</h2>
+<h2 align="left">➾ Responding to Requests</h2>
 
 <h3 align="left">Responding to Requests in Basic Way</h3>
 
@@ -158,7 +158,6 @@ import typing
 
 api = fastapi.FastAPI()
 
-
 @api.get(path="/api/calculate")
 def calculate(a: int, b: int, c: typing.Optional[int] = None):
     result = a + b
@@ -172,4 +171,39 @@ def calculate(a: int, b: int, c: typing.Optional[int] = None):
     return {"a": a, "b": b, "c": c, "value": result}
 
 # url: http://127.0.0.1:8000/api/calculate?a=2&b=3&c=0
+```
+
+<h2 align="left">➾ Rendering Basic HTML Page with HTMLResponse</h2>
+
+```python
+import fastapi
+import uvicorn
+import typing
+
+api = fastapi.FastAPI()
+
+@api.get(path="/", response_class=fastapi.responses.HTMLResponse)
+def homepage():
+    body = """
+    <html>
+        <head>
+            <style>
+                h1 {
+                    text-align: center;
+                }
+                a {
+                    display: block;
+                    text-align: center;
+                }
+            </style>
+        </head>
+        <body>
+            <h1>Welcome to superfast Calculator API</h1>
+            <a href="http://127.0.0.1:8000/api/calculate?a=2&b=3&c=10">Try me</a>
+        </body>
+    </html>
+    """
+    return fastapi.responses.HTMLResponse(content=body)
+
+# url: http://127.0.0.1:8000/
 ```
